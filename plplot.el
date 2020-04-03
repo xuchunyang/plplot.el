@@ -30,6 +30,7 @@
 ;;; Code:
 
 (require 'plplot-module)
+(require 'seq)                          ; `seq-into'
 
 (cl-defun plplot (func x-min x-max
                        &key
