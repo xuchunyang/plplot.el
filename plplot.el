@@ -39,6 +39,7 @@
                        (title "")
                        (samples 100)
                        (outfile (make-temp-file "plot" nil ".svg")))
+  "Plot y=FUNC(x) from X-MIN to X-MAX."
   (setq x-min (float x-min)
         x-max (float x-max))
   (let* ((xs (cl-loop with step = (/ (- x-max x-min) samples)

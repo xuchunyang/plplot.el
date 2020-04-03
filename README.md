@@ -49,6 +49,12 @@ Use-package users can achieve the above with:
   :load-path "~/src/plplot.el")
 ```
 
+## API
+
+### `(plplot func x-min x-max xlabel ylabel title samples outfile)`
+
+Plot y=FUNC(x) from X-MIN to X-MAX.
+
 ## Requires
 
 - Emacs 25
