@@ -19,7 +19,8 @@ jobs:
       run: sudo apt-get install libplplot-dev
     - name: Build module
       run: |
-        make CFLAGS=-I$HOME/.nix-profile/include
+        pkg-config --list-all | grep -i plplot
+        make CFLAGS=-I$HOME/.nix-profile/include CFLAGS+=`pkg-config --cflags --libs plplot`
     - name: Byte compile
       run: |
         emacs -Q --batch -L . --eval "(setq byte-compile-error-on-warn t)" -f batch-byte-compile *.el
