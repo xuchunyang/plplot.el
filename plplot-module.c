@@ -45,8 +45,7 @@ Fplot (emacs_env *env, ptrdiff_t nargs, emacs_value *args, void *data)
   title = extract_utf8_string (env, args[8]);
   outfile = extract_utf8_string (env, args[9]);
 
-
-  plsdev ("svg");
+  plsetopt ("dev", "svg");
   plsetopt ("o", outfile);
   plinit ();
   plenv (xmin, xmax, ymin, ymax, 0, 0);
