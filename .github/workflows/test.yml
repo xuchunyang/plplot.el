@@ -16,9 +16,10 @@ jobs:
       with:
         version: ${{ matrix.emacs_version }}
     - name: Install deps
-      run: sudo apt install plplot
+      run: sudo apt-get install libplplot-dev
     - name: Build module
-      run: make
+      run: |
+        make CFLAGS=-I$HOME/.nix-profile/include
     - name: Byte compile
       run: |
         emacs -Q --batch -L . --eval "(setq byte-compile-error-on-warn t)" -f batch-byte-compile *.el

@@ -6,7 +6,7 @@ else
 	EXT = so		# both .so and .dylib work on macOS
 endif
 
-CFLAGS = -Wall -shared -fpic -lplplot
+override CFLAGS += -Wall -shared -fpic -lplplot
 
 plplot-module.$(EXT): plplot-module.c
 	$(CC) $(CFLAGS) $< -o $@
