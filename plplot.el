@@ -23,7 +23,9 @@
 
 ;;; Commentary:
 
-;; An Emacs dynamic module for PLplot. It lets you plotting.
+;; An Emacs dynamic module for PLplot. It lets you plot, e.g.,
+;;
+;; (plplot #'sin (- pi) pi :outfile "sin.svg")
 
 ;;; Code:
 
