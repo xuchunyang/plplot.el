@@ -29,6 +29,7 @@
 
 ;;; Code:
 
+(require 'cl-lib)
 (require 'plplot-module)
 (require 'seq)                          ; `seq-into'
 
@@ -60,6 +61,28 @@
      title
      outfile)
     outfile))
+
+(cl-defun plplot-bar-chart (ys &key
+                               (xlabel "x axis")
+                               (ylabel "y axis")
+                               (title "")
+                               (outfile (make-temp-file "plot" nil ".svg")))
+  "Plot ys in bar chart."
+  (let ((xs (number-sequence 1 (length ys))))
+    (setq xs (mapcar #'float xs)
+          ys (mapcar #'float ys))
+    (plplot-module-plot-bar-chart
+     (seq-into xs 'vector)              ; xs is not used
+     (seq-into ys 'vector)
+     0.0
+     (float (length ys))
+     0.0
+     (apply #'max ys)
+     xlabel
+     ylabel
+     title
+     outfile))
+  outfile)
 
 (provide 'plplot)
 ;;; plplot.el ends here

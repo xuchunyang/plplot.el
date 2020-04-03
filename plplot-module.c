@@ -26,6 +26,72 @@ extract_vector_doubles (emacs_env *env, emacs_value vec)
   return p;
 }
 
+static void
+plfbox (PLFLT x0, PLFLT y0)
+{
+    PLFLT x[4], y[4];
+
+    x[0] = x0;
+    y[0] = 0.;
+    x[1] = x0;
+    y[1] = y0;
+    x[2] = x0 + 1.;
+    y[2] = y0;
+    x[3] = x0 + 1.;
+    y[3] = 0.;
+    plfill (4, x, y);
+    plcol0 (1);
+    pllsty (1);
+    plline (4, x, y);
+}
+
+static emacs_value
+Fplot_bar_chart (emacs_env *env, ptrdiff_t nargs, emacs_value *args, void *data)
+{
+  double *xs, *ys;
+  double xmin, xmax, ymin, ymax;
+  char *xlabel, *ylabel, *title, *outfile;
+
+  PLFLT pos[]   = {0.0, 0.25, 0.5, 0.75, 1.0};
+  PLFLT red[]   = {0.0, 0.25, 0.5, 1.0, 1.0};
+  PLFLT green[] = {1.0, 0.5, 0.5, 0.5, 1.0};
+  PLFLT blue[]  = {1.0, 1.0, 0.5, 0.25, 0.0};
+
+  xs = extract_vector_doubles (env, args[0]); /* not used */
+  ys = extract_vector_doubles (env, args[1]);
+  xmin = env->extract_float (env, args[2]);
+  xmax = env->extract_float (env, args[3]);
+  ymin = env->extract_float (env, args[4]);
+  ymax = env->extract_float (env, args[5]);
+  xlabel = extract_utf8_string (env, args[6]);
+  ylabel = extract_utf8_string (env, args[7]);
+  title = extract_utf8_string (env, args[8]);
+  outfile = extract_utf8_string (env, args[9]);  
+
+  plsdev ("svg");
+  plsetopt ("o", outfile);
+  plinit ();
+  plenv (xmin, xmax, ymin, ymax, 0, 0);
+  pllab (xlabel, ylabel, title);
+
+  plscmap1l (1, 5, pos, red, green, blue, NULL);
+
+  for (int i = 0; i < env->vec_size (env, args[0]); i++)
+    {
+      plcol1 (i / 9.0);
+      plpsty (0);
+      plfbox (i, ys[i]);
+    }
+
+  plend ();
+  free (ys);
+  free (xlabel);
+  free (ylabel);
+  free (title);
+  free (outfile);
+  return env->intern (env, "nil");
+}
+
 static emacs_value
 Fplot (emacs_env *env, ptrdiff_t nargs, emacs_value *args, void *data)
 {
@@ -43,7 +109,6 @@ Fplot (emacs_env *env, ptrdiff_t nargs, emacs_value *args, void *data)
   ylabel = extract_utf8_string (env, args[7]);
   title = extract_utf8_string (env, args[8]);
   outfile = extract_utf8_string (env, args[9]);
-
 
   plsdev ("svg");
   plsetopt ("o", outfile);
@@ -99,6 +164,7 @@ emacs_module_init (struct emacs_runtime *runtime)
 		 env->make_function (env, amin, amax, csym, doc, data))
 
   DEFUN ("plplot-module-plot", Fplot, 10, 10, NULL, NULL);
+  DEFUN ("plplot-module-plot-bar-chart", Fplot_bar_chart, 10, 10, NULL, NULL);
 #undef DEFUN
 
   provide (env, "plplot-module");

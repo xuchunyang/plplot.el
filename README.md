@@ -53,7 +53,11 @@ Use-package users can achieve the above with:
 
 ### `(plplot func x-min x-max xlabel ylabel title samples outfile)`
 
-Plot y=FUNC(x) from X-MIN to X-MAX.
+Plot `y=FUNC(x)` from `X-MIN` to `X-MAX`.
+
+### `(plplot-bar-chart ys xlabel ylabel title samples outfile)`
+
+Plot `ys` in bar chart.
 
 ## Requires
 

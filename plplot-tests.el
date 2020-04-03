@@ -24,9 +24,13 @@
 ;;; Code:
 
 (require 'plplot)
+(require 'ert)
 
 (ert-deftest plplot ()
   (should (plplot #'sin (- pi) pi)))
+
+(ert-deftest plplot-bar-chart ()
+  (should (plplot-bar-chart '(5 10 15 20 40))))
 
 (provide 'plplot-tests)
 ;;; plplot-tests.el ends here
