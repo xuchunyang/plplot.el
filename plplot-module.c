@@ -3,7 +3,6 @@
 int plugin_is_GPL_compatible;
 
 #include <plplot/plplot.h>
-#include <stdio.h>
 
 static char *
 extract_utf8_string (emacs_env *env, emacs_value lisp_str)
