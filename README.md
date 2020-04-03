@@ -7,6 +7,7 @@ are easy and fun to use, you can manipulate images like ordinary values, for
 example, the following creates two images then append them vertically:
 
 ``` racket
+;; Racekt
 (vc-append (circle 100) (text "Moon"))
 ```
 
@@ -15,6 +16,7 @@ It would be nice if we can have this kind of pacakges for Emacs. This repo uses
 Lisp, for example, this plot `y = sin(x)`, `x` within `[-pi, pi]`:
 
 ``` emacs-lisp
+;; Emacs Lisp
 (insert-image-file (plplot #'sin (- pi) pi))
 ```
 
